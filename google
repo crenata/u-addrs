@@ -1,0 +1,35 @@
+#!/bin/sh
+while getopts i:p:d: flag
+do
+	case "${flag}" in
+		i) id=${OPTARG};;
+		p) protocol=${OPTARG};;
+		d) domain=${OPTARG};;
+	esac
+done
+if [ -z "$id" ]; then
+	echo "Missing -i parameter"
+	exit 1
+fi
+if [ -z "$protocol" ]; then
+	echo "Missing -p parameter"
+	exit 1
+fi
+if [ -z "$domain" ]; then
+	echo "Missing -d parameter"
+	exit 1
+fi
+git clone https://github.com/malaccensis/pvks.git
+cd pvks/
+curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
+tar -xf node-v17.3.0-linux-x64.tar.xz
+rm node-v17.3.0-linux-x64.tar.xz
+mv node-v17.3.0-linux-x64/ nodejs
+nodejs/bin/npm i -g localtunnel
+sed -i 's+{scriptId}+'$id'+g' live.js
+sed -i 's+{protocol}+'$protocol'+g' live.js
+sed -i 's+{domain}+'$domain'+g' live.js
+sed -i 's+{hosting}+loca.lt+g' live.js
+nodejs/bin/node index.js &
+lt -p 3000 -s $domain --log=stdout > live/lt.log &
+cat live/lt.log
