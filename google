@@ -28,5 +28,6 @@ sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{hosting}+loca.lt+g' live.js
 nodejs/bin/node index.js &
-lt -p 3000 -s $domain --log=stdout > live/lt.log &
+nodejs/bin/node node_modules/localtunnel/bin/lt.js -p 3000 -s $domain --log=stdout > live/lt.log &
+clear
 cat live/lt.log
