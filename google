@@ -1,5 +1,5 @@
 #!/bin/sh
-while getopts i:p:d: flag
+while getopts i:d: flag
 do
 	case "${flag}" in
 		i) id=${OPTARG};;
@@ -9,10 +9,6 @@ do
 done
 if [ -z "$id" ]; then
 	echo "Missing -i parameter"
-	exit 1
-fi
-if [ -z "$protocol" ]; then
-	echo "Missing -p parameter"
 	exit 1
 fi
 if [ -z "$domain" ]; then
@@ -27,7 +23,7 @@ rm node-v17.3.0-linux-x64.tar.xz
 mv node-v17.3.0-linux-x64/ nodejs
 nodejs/bin/npm i -g localtunnel
 sed -i 's+{scriptId}+'$id'+g' live.js
-sed -i 's+{protocol}+'$protocol'+g' live.js
+sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{hosting}+loca.lt+g' live.js
 nodejs/bin/node index.js &
