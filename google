@@ -22,6 +22,7 @@ tar -xf node-v17.3.0-linux-x64.tar.xz
 rm node-v17.3.0-linux-x64.tar.xz
 mv node-v17.3.0-linux-x64/ nodejs
 nodejs/bin/npm i -g localtunnel
+sed -i 's+node+nodejs/bin/node+g' index.js
 sed -i 's+{scriptId}+'$id'+g' live.js
 sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
