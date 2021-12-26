@@ -1,13 +1,10 @@
 #!/bin/sh
-#docker pull alpine
-#docker run -d --name alpine alpine tail -f /dev/null
-#docker exec -it alpine sh
-while getopts i:d: flag
+while getopts i:d:p: flag
 do
 	case "${flag}" in
 		i) id=${OPTARG};;
-		p) protocol=${OPTARG};;
 		d) domain=${OPTARG};;
+		p) port=${OPTARG};;
 	esac
 done
 if [ -z "$id" ]; then
@@ -18,7 +15,6 @@ if [ -z "$domain" ]; then
 	echo "Missing -d parameter"
 	exit 1
 fi
-apk add --update git nodejs npm gcc boost-dev make musl-dev nano
 git clone https://github.com/malaccensis/pvks.git
 cd pvks/
 sed -i 's+{scriptId}+'$id'+g' live.js
@@ -27,5 +23,5 @@ sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{platform}+google-cloud+g' live.js
 sed -i 's+{platform_domain}+loca.lt+g' live.js
 node index.js --log=stdout > live/index.log &
-node node_modules/localtunnel/bin/lt.js -p 3000 -s $domain --log=stdout > live/lt.log &
+node node_modules/localtunnel/bin/lt.js -p $port -s $domain --log=stdout > live/lt.log &
 cat live/lt.log
