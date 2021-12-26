@@ -26,6 +26,6 @@ sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{platform}+google-cloud+g' live.js
 sed -i 's+{platform_domain}+loca.lt+g' live.js
-nodejs/bin/node index.js &
+nodejs/bin/node index.js -p $port &
 nodejs/bin/node node_modules/localtunnel/bin/lt.js -p $port -s $domain --log=stdout > live/lt.log &
 cat live/lt.log
