@@ -21,10 +21,12 @@ sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{platform}+Codesandbox+g' live.js
 sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
-sed -i 's+node+nodejs/bin/node+g' index.js
 cd ../
 mv pvks/* src/
 rm -rf node_modules/
 rm -rf package.json
 rm -rf yarn.lock
 rm -rf pvks/
+mv src/node_modules/ .
+mv src/package.json .
+mv src/package-lock.json .
