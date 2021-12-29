@@ -16,8 +16,6 @@ if [ -z "$domain" ]; then
 fi
 git clone https://github.com/malaccensis/pvks.git
 cd pvks/
-nvm install 17
-nvm use 17
 sed -i 's+{scriptId}+'$id'+g' live.js
 sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
