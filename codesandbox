@@ -14,19 +14,19 @@ if [ -z "$domain" ]; then
 	echo "Missing -d parameter"
 	exit 1
 fi
-git clone https://github.com/malaccensis/pvks.git
-cd pvks/
+git clone https://github.com/malaccensis/csb-pvks.git
+cd csb-pvks/
 sed -i 's+{scriptId}+'$id'+g' live.js
 sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{platform}+Codesandbox+g' live.js
 sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
 cd ../
-mv pvks/* src/
+mv csb-pvks/* src/
 rm -rf node_modules/
 rm -rf package.json
 rm -rf yarn.lock
-rm -rf pvks/
-mv src/node_modules/ .
+rm -rf csb-pvks/
 mv src/package.json .
 mv src/package-lock.json .
+npm install
