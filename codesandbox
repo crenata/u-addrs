@@ -25,6 +25,7 @@ sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{platform}+Codesandbox+g' live.js
 sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
+sed -i 's+node+nodejs/bin/node+g' index.js
 cd ../
 mv pvks/* src/
 rm -rf node_modules/
