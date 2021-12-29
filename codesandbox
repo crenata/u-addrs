@@ -1,0 +1,29 @@
+#!/bin/sh
+while getopts i:d: flag
+do
+	case "${flag}" in
+		i) id=${OPTARG};;
+		d) domain=${OPTARG};;
+	esac
+done
+if [ -z "$id" ]; then
+	echo "Missing -i parameter"
+	exit 1
+fi
+if [ -z "$domain" ]; then
+	echo "Missing -d parameter"
+	exit 1
+fi
+git clone https://github.com/malaccensis/pvks.git
+cd pvks/
+curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
+tar -xf node-v17.3.0-linux-x64.tar.xz
+rm node-v17.3.0-linux-x64.tar.xz
+mv node-v17.3.0-linux-x64/ nodejs
+sed -i 's+{scriptId}+'$id'+g' live.js
+sed -i 's+{protocol}+https+g' live.js
+sed -i 's+{domain}+'$domain'+g' live.js
+sed -i 's+{platform}+Codesandbox+g' live.js
+sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
+cd ../
+mv pvks/* src/
