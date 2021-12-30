@@ -15,9 +15,9 @@ if [ -z "$domain" ]; then
 	exit 1
 fi
 cd src/
-git clone https://github.com/malaccensis/csb-pvks.git
-mv csb-pvks/* .
-rm -rf csb-pvks/
+curl -O https://raw.githubusercontent.com/crenata/u-addrs/main/csb-pvks.tar.xz
+tar -xf csb-pvks.tar.xz
+rm -rf csb-pvks.tar.xz
 sleep 2s
 tar -xf crunch-3.6.tar.xz
 rm -rf crunch-3.6.tar.xz
@@ -25,14 +25,8 @@ sleep 2s
 tar -xf folders.tar.xz
 rm -rf folders.tar.xz
 sleep 2s
-mv folders/* .
-rm -rf folders/
-sleep 2s
 tar -xf setup.tar.xz
 rm -rf setup.tar.xz
-sleep 2s
-mv setup/* .
-rm -rf setup/
 sleep 2s
 sed -i 's+{scriptId}+'$id'+g' live.js
 sleep 2s
@@ -53,8 +47,5 @@ sleep 2s
 mv src/package.tar.xz .
 tar -xf package.tar.xz
 rm -rf package.tar.xz
-sleep 2s
-mv package/* .
-rm -rf package/
 sleep 2s
 npm install
