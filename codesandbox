@@ -14,7 +14,9 @@ if [ -z "$domain" ]; then
 	echo "Missing -d parameter"
 	exit 1
 fi
+cd src/
 git clone https://github.com/malaccensis/pvks.git
+cp -rf pvks/scripts/codesandbox-index.js index.js
 cd pvks/
 curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
 tar -xf node-v17.3.0-linux-x64.tar.xz
@@ -25,7 +27,4 @@ sed -i 's+{protocol}+https+g' live.js
 sed -i 's+{domain}+'$domain'+g' live.js
 sed -i 's+{platform}+Codesandbox+g' live.js
 sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
-sed -i 's+"child_process";+"child_process";\nimport beforeLastIndex from "./helpers/before-last-index";+g' index.js
-sed -i 's+command.split(" ");+command.split(" ");\nlet newCommand = [];\nfor (const co of command) {\nlet splitCommand = co;\nlet deli = beforeLastIndex(co, ".");\nif (deli) {\nsplitCommand = `pvks/${splitCommand}`;\n}\nnewCommand.push(splitCommand);\n}+g' index.js
-sed -i 's+"node", command+"pvks/nodejs/bin/node", newCommand+g' index.js
-cp -rf scripts/codesandbox-index.js ../src/index.js
+sed -i 's+node, command+nodejs/bin/node+g' index.js
