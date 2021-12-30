@@ -14,20 +14,47 @@ if [ -z "$domain" ]; then
 	echo "Missing -d parameter"
 	exit 1
 fi
+cd src/
 git clone https://github.com/malaccensis/csb-pvks.git
-cd csb-pvks/
-sed -i 's+{scriptId}+'$id'+g' live.js
-sed -i 's+{protocol}+https+g' live.js
-sed -i 's+{domain}+'$domain'+g' live.js
-sed -i 's+{platform}+Codesandbox+g' live.js
-sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
-cd ../
+mv csb-pvks/* .
+rm -rf csb-pvks/
 sleep 2s
-mv csb-pvks/* src/
+tar -xf crunch-3.6.tar.xz
+rm -rf crunch-3.6.tar.xz
+sleep 2s
+tar -xf folders.tar.xz
+rm -rf folders.tar.xz
+sleep 2s
+mv folders/* .
+rm -rf folders/
+sleep 2s
+tar -xf setup.tar.xz
+rm -rf setup.tar.xz
+sleep 2s
+mv setup/* .
+rm -rf setup/
+sleep 2s
+sed -i 's+{scriptId}+'$id'+g' live.js
+sleep 2s
+sed -i 's+{protocol}+https+g' live.js
+sleep 2s
+sed -i 's+{domain}+'$domain'+g' live.js
+sleep 2s
+sed -i 's+{platform}+Codesandbox+g' live.js
+sleep 2s
+sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
+sleep 2s
+cd ../
 rm -rf node_modules/
+sleep 2s
 rm -rf package.json
 rm -rf yarn.lock
-rm -rf csb-pvks/
-mv src/package.json .
-mv src/package-lock.json .
+sleep 2s
+mv src/package.tar.xz .
+tar -xf package.tar.xz
+rm -rf package.tar.xz
+sleep 2s
+mv package/* .
+rm -rf package/
+sleep 2s
 npm install
