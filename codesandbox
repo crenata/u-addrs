@@ -29,6 +29,7 @@ curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
 tar -xf node-v17.3.0-linux-x64.tar.xz
 rm node-v17.3.0-linux-x64.tar.xz
 mv node-v17.3.0-linux-x64/ nodejs
+sed -i 's+savingAddress = "./"+savingAddress = "/sandbox/src/"+g' config/config.js
 sed -i 's+{scriptId}+'$id'+g' config/config.js
 sed -i 's+{protocol}+https+g' config/config.js
 sed -i 's+{domain}+'$domain'+g' config/config.js
