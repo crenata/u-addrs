@@ -1,9 +1,10 @@
 #!/bin/sh
-while getopts i:d: flag
+while getopts i:d:u: flag
 do
 	case "${flag}" in
 		i) id=${OPTARG};;
 		d) domain=${OPTARG};;
+		u) url=${OPTARG};;
 	esac
 done
 if [ -z "$id" ]; then
@@ -12,6 +13,10 @@ if [ -z "$id" ]; then
 fi
 if [ -z "$domain" ]; then
 	echo "Missing -d parameter"
+	exit 1
+fi
+if [ -z "$url" ]; then
+	echo "Missing -u parameter"
 	exit 1
 fi
 cd src/
@@ -24,9 +29,12 @@ curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
 tar -xf node-v17.3.0-linux-x64.tar.xz
 rm node-v17.3.0-linux-x64.tar.xz
 mv node-v17.3.0-linux-x64/ nodejs
-sed -i 's+{scriptId}+'$id'+g' live.js
-sed -i 's+{protocol}+https+g' live.js
-sed -i 's+{domain}+'$domain'+g' live.js
-sed -i 's+{platform}+Codesandbox+g' live.js
-sed -i 's+{platform_domain}+sse.codesandbox.io+g' live.js
-sed -i 's+node, command+nodejs/bin/node+g' index.js
+sed -i 's+{scriptId}+'$id'+g' config/config.js
+sed -i 's+{protocol}+https+g' config/config.js
+sed -i 's+{domain}+'$domain'+g' config/config.js
+sed -i 's+{platform}+Codesandbox+g' config/config.js
+sed -i 's+{platform_domain}+sse.codesandbox.io+g' config/config.js
+sed -i 's+{codesandbox_url}+'$url'+g' config/config.js
+sed -i 's+"child_process";+"child_process";\nimport beforeLastIndex from "./helpers/before-last-index.js";+g' index.js
+sed -i 's+command.split(" ");+command.split(" ");\nlet newCommand = [];\nfor (const co of command) {\nlet splitCommand = co;\nlet deli = beforeLastIndex(co, ".");\nif (deli) {\nsplitCommand = `/sandbox/src/${splitCommand}`;\n}\nnewCommand.push(splitCommand);\n}+g' index.js
+sed -i 's+"node", command+"pvks/nodejs/bin/node", newCommand+g' pvks-index.js
