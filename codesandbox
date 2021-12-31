@@ -37,4 +37,4 @@ sed -i 's+{platform_domain}+sse.codesandbox.io+g' config/config.js
 sed -i 's+{codesandbox_url}+'$url'+g' config/config.js
 sed -i 's+"child_process";+"child_process";\nimport beforeLastIndex from "./helpers/before-last-index.js";+g' pvks-index.js
 sed -i 's+command.split(" ");+command.split(" ");\nlet newCommand = [];\nfor (const co of command) {\nlet splitCommand = co;\nlet deli = beforeLastIndex(co, ".");\nif (deli) {\nsplitCommand = `/sandbox/src/${splitCommand}`;\n}\nnewCommand.push(splitCommand);\n}+g' pvks-index.js
-sed -i 's+"node", command+"pvks/nodejs/bin/node", newCommand+g' pvks-index.js
+sed -i 's+"node", command+"/sandbox/src/nodejs/bin/node", newCommand+g' pvks-index.js
