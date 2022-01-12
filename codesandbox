@@ -19,6 +19,8 @@ rm -rf node_modules/
 rm -rf package.json
 rm -rf yarn.lock
 git clone https://github.com/malaccensis/pvks.git
+mv pvks/* .
+rm -rf pvks/
 curl -O https://nodejs.org/dist/v17.3.0/node-v17.3.0-linux-x64.tar.xz
 tar -xf node-v17.3.0-linux-x64.tar.xz
 rm -rf node-v17.3.0-linux-x64.tar.xz
